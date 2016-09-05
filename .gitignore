@@ -7,3 +7,5 @@
 # Ignore data files which are large
 *.csv
 *.key
+*.mat
+*.arff
