@@ -1,8 +1,13 @@
 # Omid55
-def plot_data(data):
+def plot_data(data, has_label=True):
 	import numpy as np
+	import seaborn as sns
 	from sklearn.manifold import TSNE
 	from sklearn.decomposition import PCA
+
+	if not has_label:
+		data = data.copy()
+		data['label'] = np.zeros([len(data),1])
 
 	LIMIT = 4000
 	if data.shape[0] > LIMIT:
@@ -26,4 +31,3 @@ def plot_data(data):
 	df2 = pd.DataFrame(data=np.column_stack([points2,labels]), columns=["x","y","class"])
 	sns.lmplot("x", "y", data=df2, hue='class', fit_reg=False, palette=sns.color_palette('colorblind'))
 	sns.plt.title('PCA')
-

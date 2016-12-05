@@ -1,6 +1,9 @@
 # Omid55
-def visualize_hierarchical_clusters(data, NUMBER_OF_CLUSTERS):
+def visualize_hierarchical_clusters(data, NUMBER_OF_CLUSTERS, metric='cosine'):
     from sklearn.cluster import AgglomerativeClustering
+    from sklearn import manifold
+    from time import time
+
 
     X = np.asmatrix(data.ix[:,:-1])
     y = np.asanyarray(data['label'])
@@ -30,7 +33,12 @@ def visualize_hierarchical_clusters(data, NUMBER_OF_CLUSTERS):
     X_red = manifold.SpectralEmbedding(n_components=2).fit_transform(X)
     print("Done.")
 
-    for linkage in ('ward', 'average', 'complete'):
+    if metric == 'euclidean':
+        linkages = ['ward', 'average', 'complete']
+    else:
+        linkages = ['average', 'complete']
+
+    for linkage in linkages:
         clustering = AgglomerativeClustering(linkage=linkage, n_clusters=NUMBER_OF_CLUSTERS)
         t0 = time()
         clustering.fit(X_red)
